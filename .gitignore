@@ -1,1 +1,15 @@
 # BicRF
+Debug
+Send
+*.obj
+*.tlog
+*.vcproj.*
+*.pch
+*.pdb
+*.sdf
+*.ncb
+*.DLL.bi
+vc90.*
+*.htm
+mt.dep
+git.cmd
