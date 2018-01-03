@@ -43,6 +43,7 @@ namespace BicRF {
 	private: System::Windows::Forms::ToolStripMenuItem^  insertToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  editToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  deleteToolStripMenuItem;
+	private: System::Windows::Forms::Timer^  timer1;
 
 
 
@@ -191,6 +192,7 @@ namespace BicRF {
 			this->FilterLabel = (gcnew System::Windows::Forms::Label());
 			this->dataView1 = (gcnew System::Data::DataView());
 			this->oleSelectTypesCommand = (gcnew System::Data::OleDb::OleDbCommand());
+			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataSet1))->BeginInit();
 			this->menuStrip1->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataSet2))->BeginInit();
@@ -535,6 +537,12 @@ namespace BicRF {
 			this->oleSelectTypesCommand->CommandText = L"SELECT        PZN, NAME + \' (\' + IMY + \')\' AS PZNAME\r\nFROM            PZN";
 			this->oleSelectTypesCommand->Connection = this->oleDbConnection2;
 			// 
+			// timer1
+			// 
+			this->timer1->Enabled = true;
+			this->timer1->Interval = 500;
+			this->timer1->Tick += gcnew System::EventHandler(this, &MainForm::timer1_Tick);
+			// 
 			// MainForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -567,12 +575,6 @@ private: System::Void MainForm_Load(System::Object^  sender, System::EventArgs^ 
 			IniFile = gcnew CIniFile( ".\\BicRF.ini" );
 			DBServerName = IniFile->getValue( "DBConnection:DBServerName" );
 			ConnectionStringTemplate = createConnectionStringTemplateForDBServer( DBServerName );
-
-			// Загрузка данных из БД
-			loadDBFromSQLServer();
-
-			// Пересчет ширин полей фильтра
-			resizeFilterFields();
 
 			// По умолчанию панель фильтра прячем
 			FilterPanel->Visible = false;
@@ -813,6 +815,18 @@ private: System::Void contextMenuStrip1_Opening(System::Object^  sender, System:
 				else
 					e->Cancel = true;	// Подавление появления меню в заголовках колонок и строк
 		 }
+// ------------------------------------------------------------------
+
+// Загрузка данных откладывается до момента, когда будет показана форма
+private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) {
+			// Загрузка данных из БД
+			loadDBFromSQLServer();
+
+			// Пересчет ширин полей фильтра
+			resizeFilterFields();
+
+			timer1->Enabled = false;
+		}
 // ------------------------------------------------------------------
 
 };

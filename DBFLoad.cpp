@@ -25,8 +25,7 @@ void BicRF::MainForm::startDBFLoading() {
 		gcnew Threading::ThreadStart( this, &BicRF::MainForm::loadDBFData ));
 
 	// Индикатор прогресса обязательно должен создаваться до запуска процесса загрузки
-	rProgressBarForm = gcnew ProgressBarForm( Point( this->Location.X + 50, this->Location.Y + 50 ) );
-	rProgressBarForm->Title = "Загрузка БД из DBF-файлов";
+	rProgressBarForm = gcnew ProgressBarForm( Point( this->Location.X + 50, this->Location.Y + 50 ), "Загрузка БД из DBF-файлов" );
 	rProgressBarForm->Operation = "Начало загрузки";
 
 	// Запуск потока загрузки данных из DBF-файлов 

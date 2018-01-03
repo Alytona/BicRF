@@ -6,6 +6,7 @@ using namespace System::Collections;
 using namespace System::Windows::Forms;
 using namespace System::Data;
 using namespace System::Drawing;
+using namespace System::Threading;
 
 
 namespace BicRF {
@@ -23,22 +24,67 @@ namespace BicRF {
 	{
 		Point FormLocation;
 
+		// Мьютекс, регулирующий доступ к свойству Progress
+		Mutex ^rProgressMutex; 
+
+		// Значение прогресса, от 0 до 100
+		int ProgressValue;
+
+		String ^OperationValue;
+
 	public:
-		ProgressBarForm( Point location )
+		ProgressBarForm( Point location, String^ _Title )
 		{
 			InitializeComponent();
 			//
 			//TODO: добавьте код конструктора
 			//
 
-			Progress = 0;
+			ProgressValue = 0;
+//			Title = _Title;
+			Text = _Title;
+
+			// Создаем мьютекс
+			rProgressMutex = gcnew Mutex;
+			
 			FormLocation = location;
 		}
 	private: System::Windows::Forms::Timer^  timer1;
 	public: 
 
-		int Progress;
-		String ^Title, ^Operation;
+		property int Progress {
+
+			int get() {
+				int value = 0;
+				rProgressMutex->WaitOne();
+				value = ProgressValue;
+				rProgressMutex->ReleaseMutex();
+				return value;
+			  }
+
+			void set( int value ) {
+				rProgressMutex->WaitOne();
+				ProgressValue = value;
+				rProgressMutex->ReleaseMutex();
+			}
+		} 		
+
+		property String^ Operation {
+
+			String^ get () { 
+				String^ operation;
+				rProgressMutex->WaitOne();
+				operation = OperationValue; 
+				rProgressMutex->ReleaseMutex();
+				return operation;
+			}
+
+			void set (String^ _operation) { 
+				rProgressMutex->WaitOne();
+				OperationValue = _operation; 
+				rProgressMutex->ReleaseMutex();
+			}
+		}
 
 	protected:
 		/// <summary>
@@ -50,6 +96,8 @@ namespace BicRF {
 			{
 				delete components;
 			}
+
+			delete rProgressMutex;
 		}
 	private: System::Windows::Forms::ProgressBar^  progressBar1;
 	protected: 
@@ -124,12 +172,12 @@ namespace BicRF {
 					 Close();
 				 }
 				 progressBar1->Value = Progress;
-				 Text = Title;
 				 label1->Text = Operation;
 			 }
 
 	private: System::Void ProgressBarForm_Shown(System::Object^  sender, System::EventArgs^  e) {
 	 			 Location = FormLocation;
+//				 Text = Title;
 				 timer1->Enabled = true;
 			 }
 	};

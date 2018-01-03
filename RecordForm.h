@@ -780,19 +780,19 @@ namespace BicRF {
 
 					// Выгрузка значений из управляющих элементов
 					SQLCommand = "insert into BNKSEEK values ('";
-					SQLCommand += REAL_TextBox->Text->Trim() + "', '";
+					SQLCommand += REAL_TextBox->Text->Replace( "'", "''" )->Trim() + "', '";
 					SQLCommand += PZN_ComboBox->SelectedValue + "', '";
 					SQLCommand += UER_ComboBox->SelectedValue + "', '";
 					SQLCommand += RGN_ComboBox->SelectedValue + "', '";
 					SQLCommand += IND_MaskedTextBox->Text->Trim() + "', '";
 					SQLCommand += TNP_ComboBox->SelectedValue + "', '";
-					SQLCommand += NNP_TextBox->Text->Trim() + "', '";
-					SQLCommand += ADR_TextBox->Text->Trim() + "', '";
+					SQLCommand += NNP_TextBox->Text->Replace( "'", "''" )->Trim() + "', '";
+					SQLCommand += ADR_TextBox->Text->Replace( "'", "''" )->Trim() + "', '";
 					SQLCommand += RKC_MaskedTextBox->Text->Trim() + "', '";
-					SQLCommand += NAME_TextBox->Text->Trim() + "', '";
+					SQLCommand += NAME_TextBox->Text->Replace( "'", "''" )->Trim() + "', '";
 					SQLCommand += NEWNUM_MaskedTextBox->Text->Trim() + "', '";
-					SQLCommand += TELEF_TextBox->Text->Trim() + "', '";
-					SQLCommand += REGN_TextBox->Text->Trim() + "', '";
+					SQLCommand += TELEF_TextBox->Text->Replace( "'", "''" )->Trim() + "', '";
+					SQLCommand += REGN_TextBox->Text->Replace( "'", "''" )->Trim() + "', '";
 					SQLCommand += OKPO_MaskedTextBox->Text->Trim() + "', '";
 					SQLCommand += DT_IZM_DateTimePicker->Value.ToShortDateString() + " 00:00:00.000', '";
 					SQLCommand += KSNP_MaskedTextBox->Text->Trim() + "', '";
@@ -807,18 +807,18 @@ namespace BicRF {
 				}
 				else {
 					SQLCommand = "update BNKSEEK set ";
-					SQLCommand += "REAL = '" + REAL_TextBox->Text->Trim() + "', ";
+					SQLCommand += "REAL = '" + REAL_TextBox->Text->Replace( "'", "''" )->Trim() + "', ";
 					SQLCommand += "PZN = '" + PZN_ComboBox->SelectedValue + "', ";
 					SQLCommand += "UER = '" + UER_ComboBox->SelectedValue + "', ";
 					SQLCommand += "RGN = '" + RGN_ComboBox->SelectedValue + "', ";
 					SQLCommand += "IND = '" + IND_MaskedTextBox->Text->Trim() + "', ";
 					SQLCommand += "TNP = '" + TNP_ComboBox->SelectedValue + "', ";
-					SQLCommand += "NNP = '" + NNP_TextBox->Text->Trim() + "', ";
-					SQLCommand += "ADR = '" + ADR_TextBox->Text->Trim() + "', ";
+					SQLCommand += "NNP = '" + NNP_TextBox->Text->Replace( "'", "''" )->Trim() + "', ";
+					SQLCommand += "ADR = '" + ADR_TextBox->Text->Replace( "'", "''" )->Trim() + "', ";
 					SQLCommand += "RKC = '" + RKC_MaskedTextBox->Text->Trim() + "', ";
-					SQLCommand += "NAMEP = '" + NAME_TextBox->Text->Trim() + "', ";
-					SQLCommand += "TELEF = '" + TELEF_TextBox->Text->Trim() + "', ";
-					SQLCommand += "REGN = '" + REGN_TextBox->Text->Trim() + "', ";
+					SQLCommand += "NAMEP = '" + NAME_TextBox->Text->Replace( "'", "''" )->Trim() + "', ";
+					SQLCommand += "TELEF = '" + TELEF_TextBox->Text->Replace( "'", "''" )->Trim() + "', ";
+					SQLCommand += "REGN = '" + REGN_TextBox->Text->Replace( "'", "''" )->Trim() + "', ";
 					SQLCommand += "OKPO = '" + OKPO_MaskedTextBox->Text->Trim() + "', ";
 					SQLCommand += "DT_IZM = '" + DT_IZM_DateTimePicker->Value.ToShortDateString() + " 00:00:00.000', ";
 					SQLCommand += "KSNP = '" + KSNP_MaskedTextBox->Text->Trim() + "', ";
